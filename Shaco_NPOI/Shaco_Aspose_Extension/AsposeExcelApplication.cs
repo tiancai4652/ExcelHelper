@@ -276,7 +276,7 @@ namespace Shaco_Aspose
         /// <param name="postfix"></param>
         public IEnumerable<Worksheet> GetDisplaySheets()
         {
-            return Workbook.Worksheets.Where(t => t.VisibilityType== VisibilityType.Visible);
+            return Workbook.Worksheets.Where(t => t.IsVisible == true);
         }
 
         /// <summary>
@@ -314,6 +314,60 @@ namespace Shaco_Aspose
             }
         }
 
+        /// <summary>
+        /// 移除指定的工作表
+        /// </summary>
+        /// <param name="sheetName"></param>
+        public void RemoveSheet(string sheetName)
+        {
+            var sheet = Workbook.Worksheets.Find(t => t.Name.Equals(sheetName));
+            if (sheet != null)
+            {
+                Workbook.Worksheets.RemoveAt(sheetName);
+            }
+        }
+
+        /// <summary>
+        /// 缩放工作表
+        /// </summary>
+        /// <param name="sheet">工作表</param>
+        /// <param name="numerator">分子</param>
+        /// <param name="denominator">分母</param>
+        public void ZoomSheet(string sheetName, int numerator, int denominator)
+        {
+            if (denominator == 0)
+            {
+                return;
+            }
+            var sheet = Workbook.Worksheets.Find(t => t.Name.Equals(sheetName));
+            if (sheet != null)
+            {
+                sheet.Zoom = numerator*100/ denominator;
+            }
+        }
+
+        /// <summary>
+        /// 获取隐藏的数据表集合
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetHideSheets()
+        {
+            return Workbook.Worksheets.Where(t => t.IsVisible == false).Select(t => t.Name).ToList();
+        }
+
+        /// <summary>
+        /// 设置Sheet显示还是隐藏
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="IsVisible"></param>
+        public void SetSheetVisible(string sheetName,bool IsVisible)
+        {
+            var sheet = Workbook.Worksheets.Find(t => t.Name.Equals(sheetName));
+            if (sheet != null)
+            {
+                sheet.IsVisible = IsVisible;
+            }
+        }
         #endregion
 
 
