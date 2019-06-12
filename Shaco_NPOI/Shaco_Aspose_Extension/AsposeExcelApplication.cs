@@ -300,6 +300,20 @@ namespace Shaco_Aspose
             sheet.Copy(sourceWorkSheet);
         }
 
+        /// <summary>
+        /// 重命名一张工作表
+        /// </summary>
+        /// <param name="oldSheetName"></param>
+        /// <param name="newSheetName"></param>
+        public void RenameSheet(string oldSheetName, string newSheetName)
+        {
+            var sheet = Workbook.Worksheets.Find(t => t.Name.Equals(oldSheetName));
+            if (sheet != null)
+            {
+                sheet.Name = newSheetName;
+            }
+        }
+
         #endregion
 
 

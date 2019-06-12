@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Shaco_NPOI
 {
-
     public class Class1
     {
 
