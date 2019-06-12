@@ -254,7 +254,7 @@ namespace Shaco_Aspose
         /// <param name="sheetName">工作表名称</param>
         public void CreateSheet(string sheetName)
         {
-            if (!Workbook.Worksheets.Exists(t => t.Name.Equals(sheetName)))
+            if (!(Workbook.Worksheets.Find(t => t.Name.Equals(sheetName))!=null))
             {
                 Workbook.Worksheets.Add(sheetName);
             }
