@@ -88,5 +88,15 @@ namespace Shaco_Aspose
             bool x = workbooktemp.Workbook.Worksheets.Find(t=>t.Name.Equals(name))!=null;
             Assert.True(x);
         }
+
+        [Trait("Worksheet", "SetSheetIndex")]
+        [Theory]
+        [InlineData("Sheet1", 0, true)]
+        [InlineData("SomeSheet", 0, false)]
+        [InlineData("Sheet1", 100, false)]
+        public void TestSetSheetIndex(string sheetName, int index, bool expect)
+        {
+            Assert.Equal(expect, workbook.SetSheetIndex(sheetName, index));
+        }
     }
 }

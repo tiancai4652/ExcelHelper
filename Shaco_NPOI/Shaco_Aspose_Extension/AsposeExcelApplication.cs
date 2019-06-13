@@ -2,6 +2,7 @@
 using Aspose.Cells.Properties;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,99 +34,13 @@ namespace Shaco_Aspose
         public AsposeExcelApplication(string fileName)
         {
             Workbook = new Workbook(fileName);
+            Workbook.Settings.CreateCalcChain = false;
         }
 
 
         #endregion
 
-        #region 单元格
-
-        /// <summary>
-        /// 向单元格内填充值
-        /// </summary>
-        /// <param name="sheetName"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="ColumnIndex"></param>
-        /// <param name="value"></param>
-        public void SetCellValue(string sheetName, int rowIndex, int ColumnIndex, object value)
-        {
-            var cell = Workbook.Worksheets[sheetName].Cells[rowIndex, ColumnIndex];
-            if (value == null || (value is string && string.IsNullOrEmpty(value as string)))
-                return;
-            switch (value.GetType().ToString())
-            {
-                case "System.String":
-                    cell.PutValue(value.ToString());
-                    break;
-                case "System.DateTime":
-                    cell.PutValue(DateTime.Parse(value.ToString()).ToShortDateString());
-                    break;
-                case "System.Boolean":
-                    bool boolV = false;
-                    bool.TryParse(value.ToString(), out boolV);
-                    cell.PutValue(boolV);
-                    break;
-                case "System.Int16":
-                case "System.Int32":
-                case "System.Int64":
-                case "System.Byte":
-                    int intV = 0;
-                    int.TryParse(value.ToString(), out intV);
-                    cell.PutValue(intV);
-                    break;
-                case "System.Decimal":
-                case "System.Double":
-                case "System.Single":
-                    if ((double)value == double.NaN)
-                        cell.PutValue("");
-                    else
-                    {
-                        double doubV = 0;
-                        double.TryParse(value.ToString(), out doubV);
-                        cell.PutValue(doubV);
-                        //if (p.RoundDigits != int.MinValue)
-                        //{
-                        //    SetNumericCell(cell, p.RoundDigits);
-                        //}
-                    }
-                    break;
-                case "System.DBNull":
-                    cell.PutValue("");
-                    break;
-                default:
-                    cell.PutValue(value.ToString());
-                    break;
-            }
-          
-        }
-
-        /// <summary>
-        /// 获取单元格值
-        /// </summary>
-        /// <param name="sheetName"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="ColumnIndex"></param>
-        /// <returns></returns>
-        public object GetCellValue(string sheetName, int rowIndex, int ColumnIndex)
-        {
-            var cell = Workbook.Worksheets[sheetName].Cells[rowIndex, ColumnIndex];
-            switch (cell.Type)
-            {
-                case CellValueType.IsBool:
-                    return cell.BoolValue;
-                case CellValueType.IsDateTime:
-                    return cell.DateTimeValue;
-                case CellValueType.IsNumeric:
-                    return cell.FloatValue;
-                case CellValueType.IsString:
-                    return cell.StringValue;
-                default:
-                    return null;
-            }
-        }
-
-
-        #endregion
+      
 
         #region 工作薄操作
 
@@ -368,9 +283,348 @@ namespace Shaco_Aspose
                 sheet.IsVisible = IsVisible;
             }
         }
+
+        /// <summary>
+        /// 设置已存在的工作表位置
+        /// </summary>
+        /// <param name="sheetName">工作表表名</param>
+        /// <param name="index">要设置的位置，从0开始</param>
+        /// <returns>是否成功，工作表不存在时返回false</returns>
+        public bool SetSheetIndex(string sheetName, int index)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null || Workbook.Worksheets.Count < index + 1)
+            {
+                return false;
+            }
+            else
+            {
+                sheet.MoveTo(index);
+                return true;
+
+            }
+        }
+
+        /// <summary>
+        /// 设置活动工作表
+        /// </summary>
+        /// <param name="SheetName"></param>
+        public void SetActiveSheet(string sheetName)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return ;
+            }
+            Workbook.Worksheets.ActiveSheetIndex = sheet.Index;
+        }
+
+        /// <summary>
+        /// 设置活动工作表
+        /// </summary>
+        public void SetActiveSheet(int index)
+        {
+            if (Workbook.Worksheets.Count >= index + 1)
+            {
+                Workbook.Worksheets.ActiveSheetIndex = index;
+            }
+        }
+
+        /// <summary>
+        /// 计算工作表中的公式
+        /// </summary>
+        /// <param name="sheetName"></param>
+        public void Recalculation(string sheetName)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return;
+            }
+            //sheet.CalculateFormula(new CalculationOptions(),true);
+            sheet.CalculateFormula(true, true, null);
+        }
+
+        /// <summary>
+        /// 从工作表里获取数据
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="startRowIndex"></param>
+        /// <param name="startColumnIndex"></param>
+        /// <param name="endRowIndex">如果为0，执行到最后一行</param>
+        /// <param name="endColumnIndex"></param>
+        /// <returns></returns>
+        public DataTable GetSheetData(string sheetName, int startRowIndex, int startColumnIndex, int endRowIndex, int endColumnIndex)
+        {
+            if (endRowIndex != 0 && startRowIndex > endRowIndex && startColumnIndex > endColumnIndex)
+                return null;
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return null;
+            }
+            DataTable dt = new DataTable();
+            for (int j = startColumnIndex; j <= endColumnIndex; j++)
+            {
+                dt.Columns.Add("Column" + j.ToString());
+            }
+            for (int i = 0; i < sheet.Cells.Rows.Count; i++)
+            {
+                if (sheet.Cells.Rows[i].Index < startRowIndex || sheet.Cells.Rows[i].Index > endRowIndex)
+                {
+                    continue;
+                }
+                DataRow dr = dt.NewRow();
+                for (int c = startColumnIndex; c <= endColumnIndex; c++)
+                {
+                    var cell = sheet.Cells.Rows[i][c];
+
+                    if (cell == null)
+                    {
+                        dr[c - startColumnIndex] = string.Empty;
+                    }
+                    else
+                    {
+                        switch (cell.Type)
+                        {
+                            case CellValueType.IsBool:
+                                dr[c - startColumnIndex] = cell.StringValue;
+                                break;
+                            case CellValueType.IsDateTime:
+                                dr[c - startColumnIndex] = cell.DateTimeValue;
+                                break;
+                            case CellValueType.IsNumeric:
+                                dr[c - startColumnIndex] = cell.FloatValue;
+                                break;
+                            case CellValueType.IsString:
+                                dr[c - startColumnIndex] = cell.StringValue;
+                                break;
+                            default:
+                                dr[c - startColumnIndex] = string.Empty;
+                                break;
+                        }
+                       
+                    }
+                }
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        /// <summary>
+        /// 保护工作表
+        /// </summary>
+        /// <param name="sheetName">工作表名称</param>
+        /// <param name="password">密码</param>
+        public void ProtectSheet(string sheetName, string password, string oldPassword = null)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return;
+            }
+            sheet.Protect(ProtectionType.All, password, oldPassword);
+        }
+
+        
         #endregion
 
+        #region Row/Column
 
+        /// <summary>
+        /// 获取工作表最后行号
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <returns></returns>
+        public int GetSheetLastRowNumber(string sheetName)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return 0;
+            }
+            return sheet.Cells.MaxDataRow;
+        }
+
+        /// <summary>
+        /// 获取工作表某一行中最后的单元格列号（From 0）
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="rowIndex"></param>
+        /// <returns></returns>
+        public int GetRowLastCellNumber(string sheetName, int rowIndex)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return 0;
+            }
+            return sheet.Cells.Rows[rowIndex].LastCell.Column;
+        }
+
+        /// <summary>
+        /// 插入空列
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="cellInsertIndex"></param>
+        public void InsertEmptyColumn(string sheetName, int emptyColumnIndex)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return;
+            }
+            sheet.Cells.InsertColumn(emptyColumnIndex,true);
+        }
+
+        // <summary>
+        /// 插入空行
+        /// </summary>
+        /// <param name="sheetName">工作表名称</param>
+        /// <param name="insertRowIndex">待插入行的索引位置</param>
+        public void InsertEmptyRow(string sheetName, int insertRowIndex)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return;
+            }
+            sheet.Cells.InsertRow(insertRowIndex);
+        }
+
+        /// <summary>
+        /// 设置行高(in unit of Points.)
+        /// </summary>
+        public void SetRowHeight(string sheetName,int rowIndex,double height)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return;
+            }
+            if (sheet.Cells.Rows.Count >= rowIndex + 1)
+            {
+                sheet.Cells.Rows[rowIndex].Height = height;
+            }
+        }
+
+
+        #endregion
+
+        #region 单元格
+
+        /// <summary>
+        /// 向单元格内填充值
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="rowIndex"></param>
+        /// <param name="ColumnIndex"></param>
+        /// <param name="value"></param>
+        public void SetCellValue(string sheetName, int rowIndex, int ColumnIndex, object value)
+        {
+            var cell = Workbook.Worksheets[sheetName].Cells[rowIndex, ColumnIndex];
+            if (value == null || (value is string && string.IsNullOrEmpty(value as string)))
+                return;
+            switch (value.GetType().ToString())
+            {
+                case "System.String":
+                    cell.PutValue(value.ToString());
+                    break;
+                case "System.DateTime":
+                    cell.PutValue(DateTime.Parse(value.ToString()).ToShortDateString());
+                    break;
+                case "System.Boolean":
+                    bool boolV = false;
+                    bool.TryParse(value.ToString(), out boolV);
+                    cell.PutValue(boolV);
+                    break;
+                case "System.Int16":
+                case "System.Int32":
+                case "System.Int64":
+                case "System.Byte":
+                    int intV = 0;
+                    int.TryParse(value.ToString(), out intV);
+                    cell.PutValue(intV);
+                    break;
+                case "System.Decimal":
+                case "System.Double":
+                case "System.Single":
+                    if ((double)value == double.NaN)
+                        cell.PutValue("");
+                    else
+                    {
+                        double doubV = 0;
+                        double.TryParse(value.ToString(), out doubV);
+                        cell.PutValue(doubV);
+                        //if (p.RoundDigits != int.MinValue)
+                        //{
+                        //    SetNumericCell(cell, p.RoundDigits);
+                        //}
+                    }
+                    break;
+                case "System.DBNull":
+                    cell.PutValue("");
+                    break;
+                default:
+                    cell.PutValue(value.ToString());
+                    break;
+            }
+
+        }
+
+        /// <summary>
+        /// 获取单元格值
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="rowIndex"></param>
+        /// <param name="ColumnIndex"></param>
+        /// <returns></returns>
+        public object GetCellValue(string sheetName, int rowIndex, int ColumnIndex)
+        {
+            var cell = Workbook.Worksheets[sheetName].Cells[rowIndex, ColumnIndex];
+            switch (cell.Type)
+            {
+                case CellValueType.IsBool:
+                    return cell.BoolValue;
+                case CellValueType.IsDateTime:
+                    return cell.DateTimeValue;
+                case CellValueType.IsNumeric:
+                    return cell.FloatValue;
+                case CellValueType.IsString:
+                    return cell.StringValue;
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 给单元格设置公式
+        /// 计算会消耗性能，可以添加所有公示后再计算( Workbook.CalculateFormula();)
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <param name="rowIndex"></param>
+        /// <param name="colIndex"></param>
+        /// <param name="cellFormulaString"></param>
+        public void SetCellFormula(string sheetName, int rowIndex, int colIndex, string cellFormulaString,bool isNeedCaculateNow=false)
+        {
+            var sheet = Workbook.Worksheets[sheetName];
+            if (sheet == null)
+            {
+                return;
+            }
+            var cell = sheet.Cells[rowIndex, colIndex];
+            if (cell == null)
+            {
+                return;
+            }
+            cell.Formula = cellFormulaString;
+            if (isNeedCaculateNow)
+            {
+                Workbook.CalculateFormula();
+            }
+        }
+
+        #endregion
 
     }
 }
