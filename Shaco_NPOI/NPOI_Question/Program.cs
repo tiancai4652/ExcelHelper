@@ -13,7 +13,14 @@ namespace NPOI_Question
     {
         static void Main(string[] args)
         {
-           
+
+            Aspose.Cells.License li = new Aspose.Cells.License();
+            string path = Application.StartupPath + "\\" + @"Aspose.Cells.lic";
+            li.SetLicense(path);
+
+
+            //Q1.Run();
+            Q4.Run();
 
 
 

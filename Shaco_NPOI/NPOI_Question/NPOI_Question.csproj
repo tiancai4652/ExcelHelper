@@ -67,7 +67,10 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Q1.cs" />
+    <Compile Include="Questions\Q1.cs" />
+    <Compile Include="Questions\Q2.cs" />
+    <Compile Include="Questions\Q3.cs" />
+    <Compile Include="Questions\Q4.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -75,6 +78,18 @@
     <None Include="bin\Debug\Folder\Q1\OrderMistake.xls" />
     <None Include="bin\Debug\Folder\Q1\OrderMistake2.xls" />
     <None Include="bin\Debug\Folder\Q1\OrderMistake3.xls" />
+    <None Include="bin\Debug\Folder\Q2\source.xls" />
+    <None Include="bin\Debug\Folder\Q2\source.xlsx" />
+    <None Include="bin\Debug\Folder\Q2\target1_ori.xlsx" />
+    <None Include="bin\Debug\Folder\Q2\target2_ori.xls" />
+    <None Include="bin\Debug\Folder\Q3\1.xls" />
+    <None Include="bin\Debug\Folder\Q3\1.xlsx" />
+    <None Include="bin\Debug\Folder\Q3\Cover-picture-inside.xls" />
+    <None Include="bin\Debug\Folder\Q3\target1_ori.xlsx" />
+    <None Include="bin\Debug\Folder\Q3\target2_ori.xls" />
+    <None Include="bin\Debug\Folder\Q4\4.xls" />
+    <None Include="bin\Debug\Folder\Q4\target1_ori.xlsx" />
+    <None Include="bin\Debug\Folder\Q4\target2_ori.xls" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

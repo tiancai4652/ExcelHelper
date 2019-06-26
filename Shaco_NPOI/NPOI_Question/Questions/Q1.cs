@@ -12,6 +12,8 @@ namespace NPOI_Question
 
     /// <summary>
     /// 使用NPOI对excel进行一些删除表和隐藏表的操作后，excel的引用会出现错乱或报错
+    /// 结论：使用Aspose 不会出现此问题
+    /// √
     /// </summary>
    public class Q1
     {
@@ -19,9 +21,7 @@ namespace NPOI_Question
         static void AsposeDoHideAndDelete(string sourceFileName, string targetFileName, List<string> HideList, List<string> DeleteList)
         {
 
-            Aspose.Cells.License li = new Aspose.Cells.License();
-            string path = Application.StartupPath + "\\" + @"Aspose.Cells.lic";
-            li.SetLicense(path);
+
 
             Workbook wb = new Workbook(sourceFileName);
 
@@ -66,7 +66,7 @@ namespace NPOI_Question
             excel.WriteToFile(targetFileName);
         }
 
-        public void Run()
+        public static void Run()
         {
             string sourceFileName = Application.StartupPath + "\\Folder\\Q1\\OrderMistake.xls";
             string sourceFileName2 = Application.StartupPath + "\\Folder\\Q1\\OrderMistake2.xls";
