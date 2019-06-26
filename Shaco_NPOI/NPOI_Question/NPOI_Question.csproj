@@ -67,12 +67,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Q1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="bin\Debug\Aspose.Cells.lic" />
-    <None Include="bin\Debug\Folder\OrderMistake.xls" />
-    <None Include="bin\Debug\Folder\OrderMistake2.xls" />
+    <None Include="bin\Debug\Folder\Q1\OrderMistake.xls" />
+    <None Include="bin\Debug\Folder\Q1\OrderMistake2.xls" />
+    <None Include="bin\Debug\Folder\Q1\OrderMistake3.xls" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
