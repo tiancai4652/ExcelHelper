@@ -19,8 +19,8 @@ namespace NPOI_Question
     {
         public static void Run()
         {
-            //string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\Cover-picture-inside.xls";
-            string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\1.xls";
+            string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\Cover-picture-inside.xls";
+            //string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\1.xls";
             //string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\1.xlsx";
             string targetFileName1 = Application.StartupPath + "\\Folder\\Q3\\target1_ori.xlsx";
             string targetFileName2 = Application.StartupPath + "\\Folder\\Q3\\target2_ori.xls";

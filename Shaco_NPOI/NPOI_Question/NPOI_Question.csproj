@@ -68,9 +68,21 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questions\Q1.cs" />
+    <Compile Include="Questions\Q10.cs" />
+    <Compile Include="Questions\Q11.cs" />
+    <Compile Include="Questions\Q12.cs" />
+    <Compile Include="Questions\Q13.cs" />
+    <Compile Include="Questions\Q14.cs" />
+    <Compile Include="Questions\Q15.cs" />
+    <Compile Include="Questions\Q16.cs" />
     <Compile Include="Questions\Q2.cs" />
     <Compile Include="Questions\Q3.cs" />
     <Compile Include="Questions\Q4.cs" />
+    <Compile Include="Questions\Q5.cs" />
+    <Compile Include="Questions\Q6.cs" />
+    <Compile Include="Questions\Q7.cs" />
+    <Compile Include="Questions\Q8.cs" />
+    <Compile Include="Questions\Q9.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -90,6 +102,13 @@
     <None Include="bin\Debug\Folder\Q4\4.xls" />
     <None Include="bin\Debug\Folder\Q4\target1_ori.xlsx" />
     <None Include="bin\Debug\Folder\Q4\target2_ori.xls" />
+    <None Include="bin\Debug\Folder\Q7\7.xls" />
+    <None Include="bin\Debug\Folder\Q7\7.xlsx" />
+    <None Include="bin\Debug\Folder\Q7\7_ori.xls" />
+    <None Include="bin\Debug\Folder\Q7\7_ori.xlsx" />
+    <None Include="bin\Debug\Folder\Q7\Source1.xlsx" />
+    <None Include="bin\Debug\Folder\Q9\9.xls" />
+    <None Include="bin\Debug\Folder\Q9\target_ori.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
