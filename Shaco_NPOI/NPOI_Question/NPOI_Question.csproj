@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -75,6 +76,7 @@
     <Compile Include="Questions\Q14.cs" />
     <Compile Include="Questions\Q15.cs" />
     <Compile Include="Questions\Q16.cs" />
+    <Compile Include="Questions\Q17.cs" />
     <Compile Include="Questions\Q2.cs" />
     <Compile Include="Questions\Q3.cs" />
     <Compile Include="Questions\Q4.cs" />
@@ -87,6 +89,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="bin\Debug\Aspose.Cells.lic" />
+    <None Include="bin\Debug\Folder\Q11\11.xls" />
+    <None Include="bin\Debug\Folder\Q11\target1_ori.xlsx" />
+    <None Include="bin\Debug\Folder\Q11\target2_ori.xlsx" />
+    <None Include="bin\Debug\Folder\Q17\target.xls" />
+    <None Include="bin\Debug\Folder\Q17\封面.xls" />
     <None Include="bin\Debug\Folder\Q1\OrderMistake.xls" />
     <None Include="bin\Debug\Folder\Q1\OrderMistake2.xls" />
     <None Include="bin\Debug\Folder\Q1\OrderMistake3.xls" />
@@ -112,7 +119,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\Debug\Folder\Q13\" />
     <Folder Include="Dll\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Folder\Q16\1.png" />
+    <Content Include="bin\Debug\Folder\Q16\2.jpg" />
+    <Content Include="bin\Debug\Folder\Q16\3.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

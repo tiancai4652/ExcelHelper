@@ -20,21 +20,12 @@ namespace NPOI_Question
 
         static void AsposeDoHideAndDelete(string sourceFileName, string targetFileName, List<string> HideList, List<string> DeleteList)
         {
-
-
-
             Workbook wb = new Workbook(sourceFileName);
-
-
             foreach (var sheet in wb.Worksheets)
             {
                 System.Diagnostics.Debug.WriteLine(sheet.Name + ":" + sheet.Index);
             }
-
-
             System.Diagnostics.Debug.WriteLine("-------------------------------");
-
-
             foreach (var hideItem in HideList)
             {
                 wb.Worksheets[hideItem].IsVisible = false;
@@ -43,11 +34,8 @@ namespace NPOI_Question
             {
                 wb.Worksheets.RemoveAt(deleteItem);
             }
-
             wb.Worksheets.ActiveSheetIndex = 0;
             wb.Save(targetFileName);
-
-
             foreach (var sheet in wb.Worksheets)
             {
                 System.Diagnostics.Debug.WriteLine(sheet.Name + ":" + sheet.Index);
@@ -62,7 +50,6 @@ namespace NPOI_Question
                 excel.RemoveSheet(DeleteList[i]);
             }
             excel.SetActiveSheet(excel.Workbook.GetSheetAt(0).SheetName);
-
             excel.WriteToFile(targetFileName);
         }
 
@@ -70,39 +57,25 @@ namespace NPOI_Question
         {
             string sourceFileName = Application.StartupPath + "\\Folder\\Q1\\OrderMistake.xls";
             string sourceFileName2 = Application.StartupPath + "\\Folder\\Q1\\OrderMistake2.xls";
-
             string sourceFileName3 = Application.StartupPath + "\\Folder\\Q1\\OrderMistake3.xls";
-
-
             string targetAspose3 = Application.StartupPath + "\\Folder\\Q1\\asposeTarget3.xls";
             AsposeDoHideAndDelete(sourceFileName3, targetAspose3, new List<string>(), new List<string>() { "Sheet2", "Sheet3" });
-
-
             string targetNPOI3 = Application.StartupPath + "\\Folder\\Q1\\npoiTarget3.xls";
             NPOIDoHideAndDelete(sourceFileName3, targetNPOI3, new List<string>(), new List<string>() { "Sheet2", "Sheet3" });
-
-
             //NPOI
             string targetNPOI = Application.StartupPath + "\\Folder\\Q1\\npoiTarget.xls";
             string targetNPOI2 = Application.StartupPath + "\\Folder\\Q1\\npoiTarget2.xls";
             ///Aspose
             string targetAspose = Application.StartupPath + "\\Folder\\Q1\\asposeTarget.xls";
             string targetAspose2 = Application.StartupPath + "\\Folder\\Q1\\asposeTarget2.xls";
-
-
             List<string> HideList = new List<string>() { "HideSheet1", "HideSheet2", "HideSheet3", "HideSheet4", "HideSheet5" };
             List<string> DeleteList = new List<string>() { "Other1", "Other2", "Other3", "Other4", "Other5" };
-
             NPOIDoHideAndDelete(sourceFileName, targetNPOI, HideList, DeleteList);
             AsposeDoHideAndDelete(sourceFileName, targetAspose, HideList, DeleteList);
-
-
-
             List<string> deleteList2 = new List<string>() { "Certificate_AFAL", "Certificate(Blank)", "Certificate_AFAL(Blank)" };
             List<string> hideList2 = new List<string>() { "BaseInfo", "CalData1", "CalData2", "Initial", "Certificate_Tapped", "Certificate_AFAL_Tapped", "Certificate_Tapped(Blank)", "Certificate_AFAL_Tapped(Blank)" };
             NPOIDoHideAndDelete(sourceFileName2, targetNPOI2, hideList2, deleteList2);
             AsposeDoHideAndDelete(sourceFileName2, targetAspose2, hideList2, deleteList2);
-
         }
     }
 }

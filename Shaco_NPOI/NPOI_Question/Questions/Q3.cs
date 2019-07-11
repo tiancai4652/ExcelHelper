@@ -20,25 +20,17 @@ namespace NPOI_Question
         public static void Run()
         {
             string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\Cover-picture-inside.xls";
-            //string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\1.xls";
-            //string sourceFileName = Application.StartupPath + "\\Folder\\Q3\\1.xlsx";
             string targetFileName1 = Application.StartupPath + "\\Folder\\Q3\\target1_ori.xlsx";
             string targetFileName2 = Application.StartupPath + "\\Folder\\Q3\\target2_ori.xls";
-
             Workbook wbSource = new Workbook(sourceFileName);
             Workbook wbTarget1 = new Workbook(targetFileName1);
             Workbook wbTarget2 = new Workbook(targetFileName2);
-
             Worksheet ws = wbSource.Worksheets["Sheet1"];
-
             Worksheet ws1 = wbTarget1.Worksheets[0];
             Worksheet ws2 = wbTarget2.Worksheets[0];
-
             ws1.Name = ws2.Name = "MySheet";
-
             ws1.Copy(ws);
             ws2.Copy(ws);
-
             wbTarget1.Save(targetFileName1.Replace("_ori", ""));
             wbTarget2.Save(targetFileName2.Replace("_ori", ""));
         }

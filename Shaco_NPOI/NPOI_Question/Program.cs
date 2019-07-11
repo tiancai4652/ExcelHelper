@@ -1,4 +1,5 @@
 ﻿using Aspose.Cells;
+using NPOI_Question.Questions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,9 @@ namespace NPOI_Question
 
 
             //Q1.Run();
-            Q9.Run();
-
+            //Q13.Run1();
+            //Q13.Run2();
+            Q17.Run();
 
 
 

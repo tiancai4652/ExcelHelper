@@ -23,24 +23,18 @@ namespace NPOI_Question
             string targetFileName1 = Application.StartupPath + "\\Folder\\Q4\\target1_ori.xlsx";
             string targetFileName2 = Application.StartupPath + "\\Folder\\Q4\\target2_ori.xls";
             string targetFileName3 = Application.StartupPath + "\\Folder\\Q4\\4copy_ori.xls";
-
             Workbook wbSource = new Workbook(sourceFileName);
             Workbook wbTarget1 = new Workbook(targetFileName1);
             Workbook wbTarget2 = new Workbook(targetFileName2);
             Workbook wbTarget3 = new Workbook(targetFileName3);
-
             Worksheet ws = wbSource.Worksheets["Sheet1"];
-
             Worksheet ws1 = wbTarget1.Worksheets[0];
             Worksheet ws2 = wbTarget2.Worksheets[0];
             Worksheet ws3 = wbTarget3.Worksheets[0];
-
             ws1.Name = ws2.Name = ws3.Name="MySheet";
-
             ws1.Copy(ws);
             ws2.Copy(ws);
             ws3.Copy(ws);
-
             wbTarget1.Save(targetFileName1.Replace("_ori", ""));
             wbTarget2.Save(targetFileName2.Replace("_ori", ""));
             wbTarget3.Save(targetFileName3.Replace("_ori", ""));
